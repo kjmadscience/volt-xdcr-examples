@@ -1,0 +1,73 @@
+global:
+  createNetworkPolicy: false
+cluster:
+  clusterSpec:
+    deletePVC: true
+    replicas: 3
+    additionalStartArgs:
+      - '--ignore=thp'
+    image:
+      repository: "voltdb/voltdb-enterprise"
+      tag: "10.2.5"
+      pullPolicy: "Always"
+    persistentVolume:
+      size: "4Gi"
+    deletePVC: 'true'
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "4"
+      limits:
+        memory: "4Gi"
+        cpu: "4"
+  serviceSpec:
+    type: NodePort # this is for HTTP, Client port
+    dr:
+      type: NodePort
+      servicePerPod: true
+      annotations:
+        cluster1-key1: "xdcr-1"
+
+      override:
+      - podIndex: 0
+        spec:
+          type: NodePort
+          ports:
+          - name: replication
+            nodePort: 32760
+            port: 5555
+      - podIndex: 1
+        spec:
+          type: NodePort
+          ports:
+          - name: replication
+            nodePort: 32761
+            port: 5555
+      - podIndex: 2
+        spec:
+          type: NodePort
+          ports:
+          - name: replication
+            nodePort: 32762
+            port: 5555
+  config:
+    deployment:
+      cluster:
+        kfactor: 1
+        sitesperhost: 4
+      commandlog:
+        enabled: 'false'
+        synchronous: 'false'
+        logsize: 3072
+        frequency:
+           time: 5000
+      snapshot:
+        enabled: 'false'
+        frequency: '24h'
+        prefix: 'SNAP'
+        retain: '2'
+      dr:
+        role: xdcr
+        id: 1
+        connection:
+          enabled: true

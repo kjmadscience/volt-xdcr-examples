@@ -1,0 +1,52 @@
+global:
+  createNetworkPolicy: false
+cluster:
+  clusterSpec:
+    replicas: 3
+    additionalStartArgs:
+      - '--ignore=thp'
+    image:
+      repository: "voltdb/voltdb-enterprise"
+      tag: "10.2.5"
+      pullPolicy: "Always"
+    persistentVolume:
+      size: "4Gi"
+    deletePVC: 'true'
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "4"
+      limits:
+        memory: "4Gi"
+        cpu: "4"
+
+  serviceSpec:
+    type: NodePort
+    dr:
+      type: NodePort
+      annotations:
+        cluster2-key2: "xdcr2"
+      replicationNodePort: 32765
+      externalTrafficPolicy: Local
+  config:
+    deployment:
+      cluster:
+        kfactor: 1
+        sitesperhost: 4
+      commandlog:
+        enabled: 'false'
+        synchronous: 'false'
+        logsize: 3072
+        frequency:
+           time: 5000
+      snapshot:
+        enabled: 'false'
+        frequency: '24h'
+        prefix: 'SNAP'
+        retain: '2'
+      dr:
+        id: 1
+        role: xdcr
+        connection:
+          enabled: true
+  
