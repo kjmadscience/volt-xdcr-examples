@@ -8,10 +8,11 @@ cluster:
       - '--ignore=thp'
     image:
       repository: "voltdb/voltdb-enterprise"
-      tag: "10.2.5"
+      tag: "10.2.9"
       pullPolicy: "IfNotPresent"
     persistentVolume:
       size: "4Gi"
+    deletePVC: 'true'
     resources:
       requests:
         memory: "4Gi"
@@ -25,7 +26,7 @@ cluster:
       type: NodePort
       servicePerPod: true
       annotations:
-        cluster2-key1: "xdcr-2"
+        cluster1-key1: "xdcr-1"
 
       override:
       - podIndex: 0
@@ -67,6 +68,6 @@ cluster:
         retain: '2'
       dr:
         role: xdcr
-        id: 11
+        id: 1
         connection:
           enabled: true

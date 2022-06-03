@@ -8,7 +8,7 @@ cluster:
       - '--ignore=thp'
     image:
       repository: "voltdb/voltdb-enterprise"
-      tag: "10.2.5"
+      tag: "10.2.9"
       pullPolicy: "IfNotPresent"
     persistentVolume:
       size: "4Gi"
