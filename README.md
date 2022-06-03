@@ -2,7 +2,7 @@
 Examples configs and steps for the different variations of Volt XDCR
 ### Google Cloud Platform
 
-if confused about version compatibility please refer, [Volt-k8s-versions] (https://docs.voltdb.com/ReleaseNotes/#rn_k8sCompat)
+if confused about version compatibility please refer, [Volt-k8s-versions](https://docs.voltdb.com/ReleaseNotes/#rn_k8sCompat)
 ## volt version: 10.2.5, per-pod NodePort based XDCR configuration
 
 1. Start the two different Kubernetes clusters
